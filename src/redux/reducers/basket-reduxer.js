@@ -41,6 +41,7 @@ export const basketReduser = (state = initialState, action) => {
             : item
         )
         .filter((item) => item.amount > 0),
+      isLoading: false,
     };
   }
   if (action.type === basketActionType.REMOVE) {
