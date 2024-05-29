@@ -49,7 +49,6 @@ export const removeItem = (id) => ({
 export const getBasketMealsThunk = () => {
   return async (dispatch) => {
     try {
-      dispatch(getBasketMealsPending());
       const data = await fetch(BASKET_URL);
       const response = await data.json();
 
@@ -76,15 +75,12 @@ export const addBasketThunk = (newObject) => {
       dispatch(getBasketMealsPending());
 
       const { addedMeals } = getState().basket;
-      const existingItem = addedMeals.find((item) => item.id === newObject.id);
-
-      console.log(addedMeals);
-      console.log(newObject);
+      const existingItem = addedMeals.find(
+        (item) => item.name === newObject.name
+      );
 
       if (existingItem) {
-        dispatch(
-          updateItemAmountThunk(existingItem.id, existingItem.amount + 1)
-        );
+        dispatch(updateItemAmountThunk(existingItem.id, 1));
       } else {
         await fetch(BASKET_URL, {
           method: "POST",
